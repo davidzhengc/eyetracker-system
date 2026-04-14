@@ -1,0 +1,19 @@
+# IDE Specific
+.idea/
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+analysis/
+data/
+media/
+results/
