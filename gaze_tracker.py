@@ -312,7 +312,7 @@ class GazeTracker:
             
             overlay.fill(0)
 
-            # --- MEJORA DE ROBUSTEZ: CLAHE ---
+            # --- CLAHE ---
 
             gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -372,14 +372,13 @@ class GazeTracker:
             cam_width, cam_height = 320, 240
             margin = 20
 
-            # 1. Redimensionar el frame real de la webcam
+            # 1. Resize webcam's real size to overlay size
             thumb = cv2.resize(frame, (cam_width, cam_height))
 
-            # 2. Dibujar un borde blanco alrededor
+            # 2. Draw white border
             cv2.rectangle(thumb, (0, 0), (cam_width - 1, cam_height - 1), (255, 255, 255), 2)
 
             # 3. Pegar la matriz de la cámara sobre la matriz del overlay
-            # Usamos índices negativos en NumPy para anclarlo a la esquina inferior derecha
             overlay[-cam_height - margin:-margin, -cam_width - margin:-margin] = thumb
             # =========================================================
 
