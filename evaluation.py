@@ -47,7 +47,7 @@ def run_evaluation(tracker):
     ]
     
     fixation_duration = 3
-    settle_time = 1.5
+    settle_time = 2
 
     all_results = []
     

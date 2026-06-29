@@ -127,8 +127,6 @@ class GazeTracker:
             if not run_lissajous_calibration(
                 self.estimator, 
                 self.config.camera_index
-                #self.config.lissajous_coverage,
-                #self.config.lissajous_speed
             ):
                 print("Warning: Lissajous calibration failed, continuing anyway...")
         
@@ -160,12 +158,12 @@ class GazeTracker:
                 win32con.GWL_EXSTYLE, 
                 style | win32con.WS_EX_LAYERED | win32con.WS_EX_TOPMOST | win32con.WS_EX_TRANSPARENT
             )
-            
+
             # Set layered window attributes for transparency
             win32gui.SetLayeredWindowAttributes(
                 hwnd, win32api.RGB(0, 0, 0), 255, win32con.LWA_COLORKEY
             )
-            
+
             # Force window to be topmost using SetWindowPos (more persistent)
             win32gui.SetWindowPos(
                 hwnd,
@@ -190,7 +188,7 @@ class GazeTracker:
                 )
         except Exception:
             pass  # Silently fail if window doesn't exist
-    
+
     def setup_global_hotkeys(self):
         """Setup global hotkeys that work even when window doesn't have focus."""
         if not HAS_KEYBOARD:
@@ -264,7 +262,7 @@ class GazeTracker:
         """Save gaze data to CSV with unique filename."""
         if not self.gaze_log:
             print("No gaze data to save.")
-            return
+            return None
         
         # Generate unique filename
         base_filename = "gaze_data"
@@ -369,17 +367,17 @@ class GazeTracker:
             # SHOW CAMERA
             # =========================================================
 
-            cam_width, cam_height = 320, 240
-            margin = 20
+            #cam_width, cam_height = 320, 240
+            #margin = 20
 
             # 1. Resize webcam's real size to overlay size
-            thumb = cv2.resize(frame, (cam_width, cam_height))
+            #thumb = cv2.resize(frame, (cam_width, cam_height))
 
             # 2. Draw white border
-            cv2.rectangle(thumb, (0, 0), (cam_width - 1, cam_height - 1), (255, 255, 255), 2)
+            #cv2.rectangle(thumb, (0, 0), (cam_width - 1, cam_height - 1), (255, 255, 255), 2)
 
             # 3. Pegar la matriz de la cámara sobre la matriz del overlay
-            overlay[-cam_height - margin:-margin, -cam_width - margin:-margin] = thumb
+            #overlay[-cam_height - margin:-margin, -cam_width - margin:-margin] = thumb
             # =========================================================
 
             cv2.imshow(window_name, overlay)
@@ -405,23 +403,19 @@ class GazeTracker:
             self.cap.release()
         cv2.destroyAllWindows()
 
-        # Save data
-        if self.gaze_log:
-            self.save_gaze_data()
-    
     def run(self):
         """Run the complete gaze tracking pipeline."""
         # Setup filter and camera
         self.setup_filter()
         if not self.setup_camera():
-            return
+            return None
 
         # Run calibration
         if not self.run_calibration():
             print("Calibration failed. Exiting.")
             if self.cap:
                 self.cap.release()
-            return
+            return None
 
         # Run tracking or evaluation
         if self.config.evaluation_mode:
@@ -433,6 +427,12 @@ class GazeTracker:
         if self.cap:
             self.cap.release()
         cv2.destroyAllWindows()
+        
+        # Save data and return the filename
+        if self.gaze_log:
+            return self.save_gaze_data()
+        
+        return None
 
 
 def show_config_interface():

@@ -218,20 +218,18 @@ def main():
 
         # 2. Start tracking and record data
         tracker = GazeTracker(config)
-        tracker.run()
+        # The run method returns the filename of the saved CSV, or None
+        saved_csv_path = tracker.run()
 
-        # 3. Upon completion, open analysis if data was recorded
-        if tracker.gaze_log:
-            ultimo_csv = tracker.save_gaze_data()
-
-            if ultimo_csv:
-                print(f"Lanzando visualizador para: {ultimo_csv}")
-                analysis_window = AnalysisDialog(csv_filepath=ultimo_csv,
-                                                 screen_w=tracker.screen_w,
-                                                 screen_h=tracker.screen_h)
-                analysis_window.exec()
-        else:
-            print("No se grabaron datos en esta sesión (Recuerda pulsar 'R' para grabar).")
+        # Upon completion, open analysis if a file was saved
+        if saved_csv_path:
+            print(f"Launching viewer for: {saved_csv_path}")
+            analysis_window = AnalysisDialog(csv_filepath=saved_csv_path,
+                                             screen_w=tracker.screen_w,
+                                             screen_h=tracker.screen_h)
+            analysis_window.exec()
+        elif tracker.gaze_log:
+             print("No se grabaron datos en esta sesión (Recuerda pulsar 'R' para grabar).")
     else:
         print("Operación cancelada.")
         sys.exit(0)
