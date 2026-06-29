@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
     QPushButton, QComboBox, QCheckBox,
     QSpinBox, QDoubleSpinBox, QGroupBox, QFormLayout, QRadioButton
 )
+from PySide6.QtGui import QIcon
 
 import sys
 from gaze_tracker import GazeTracker, GazeTrackerConfig
@@ -14,6 +15,7 @@ class ConfigDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Configuración Inicial")
+        self.setWindowIcon(QIcon("assets/eyetracker_icon.png"))
         self.resize(550, 650)
         self.config = GazeTrackerConfig()
 

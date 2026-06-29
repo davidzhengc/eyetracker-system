@@ -7,11 +7,9 @@ import cv2
 import numpy as np
 import pandas as pd
 import os
-import threading
 from datetime import datetime
 
 from eyetrax.calibration import run_lissajous_calibration
-from screeninfo import get_monitors
 from eyetrax import GazeEstimator
 from eyetrax.filters.kalman import KalmanSmoother
 from eyetrax.filters.kde import KDESmoother

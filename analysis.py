@@ -228,4 +228,4 @@ if __name__ == "__main__":
 
     plot_fixation_map(csv_file, aois, fix_df)
 
-    print("\n✔ Analysis complete")
+    print("\n Analysis complete")
