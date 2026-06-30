@@ -274,6 +274,12 @@ class GazeTracker:
             counter += 1
         
         df = pd.DataFrame(self.gaze_log, columns=["timestamp", "x", "y"])
+
+        # Normalize timestamps
+        if not df.empty:
+            start_time = df['timestamp'].iloc[0]
+            df['timestamp'] = df['timestamp'] - start_time
+
         df.to_csv(filename, index=False)
         print(f"\nGaze data saved to: {filename}")
         return filename
