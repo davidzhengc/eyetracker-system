@@ -34,6 +34,10 @@ Ejecutable Nativo (Windows)
 3. Extrae la carpeta.
 4. Haz doble clic en `EyeTracker.exe` para iniciar la aplicación.
 
+### Controles durante el eye tracking:
+R : Iniciar o detener grabación  
+T : Alternar visibilidad del cursor  
+ESC : Salir y guardar datos  
 
 ## Autor
 David Zheng
